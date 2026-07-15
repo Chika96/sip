@@ -1,0 +1,2700 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2020 sp1 (x64) (http://www.altova.com) by Chikako Yasutaka (Asia Air Survey) -->
+<xs:schema xmlns:sip="https://sample.sip/XMLSchema/1.0" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="https://sample.sip/XMLSchema/1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2025.10.08">
+	<xs:import namespace="http://www.opengis.net/gml/3.2" schemaLocation="http://schemas.opengis.net/gml/3.2.1/gml.xsd"/>
+	<!--  共通パッケージ  -->
+	<xs:element name="Dataset" type="sip:DatasetType" substitutionGroup="gml:AbstractFeature">
+		<xs:annotation>
+			<xs:documentation>データセット</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="DatasetPropertyType">
+		<xs:sequence minOccurs="0">
+			<xs:element ref="sip:Dataset"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="gml:AssociationAttributeGroup"/>
+		<xs:attributeGroup ref="gml:OwnershipAttributeGroup"/>
+	</xs:complexType>
+	<xs:complexType name="DatasetType">
+		<xs:complexContent>
+			<xs:extension base="gml:AbstractFeatureType">
+				<xs:sequence>
+					<xs:element name="description" type="xs:string" minOccurs="0"/>
+					<xs:element name="member" minOccurs="0" maxOccurs="unbounded">
+						<xs:complexType>
+							<xs:choice>
+								<xs:element ref="sip:Bridge"/>
+								<xs:element ref="sip:Damage">
+									<xs:annotation>
+										<xs:documentation>2025-10-08 子要素に"橋梁"または"損傷"のみ出現させるよう修正</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:choice>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="Feature" type="sip:FeatureType" abstract="true" substitutionGroup="gml:AbstractFeature">
+		<xs:annotation>
+			<xs:documentation>地物</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="FeaturePropertyType">
+		<xs:sequence minOccurs="0">
+			<xs:element ref="sip:Feature"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="gml:AssociationAttributeGroup"/>
+		<xs:attributeGroup ref="gml:OwnershipAttributeGroup"/>
+	</xs:complexType>
+	<xs:complexType name="FeatureType" abstract="true">
+		<xs:complexContent>
+			<xs:extension base="gml:AbstractFeatureType">
+				<xs:sequence>
+					<xs:element name="metadata" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="Bridge" type="sip:BridgeType" substitutionGroup="sip:Feature">
+		<xs:annotation>
+			<xs:documentation>橋梁</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="BridgePropertyType">
+		<xs:sequence minOccurs="0">
+			<xs:element ref="sip:Bridge"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="gml:AssociationAttributeGroup"/>
+		<xs:attributeGroup ref="gml:OwnershipAttributeGroup"/>
+	</xs:complexType>
+	<xs:complexType name="BridgeType">
+		<xs:complexContent>
+			<xs:extension base="sip:FeatureType">
+				<xs:sequence>
+					<xs:annotation>
+						<xs:documentation>2025-06-10 BridgePartへの関連を追加</xs:documentation>
+					</xs:annotation>
+					<xs:element name="bridgeAttribute" type="sip:BridgeAttributePropertyType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="mainComponent" type="sip:BridgeConstructiveElementPropertyType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="accessoryComponent" type="sip:BridgeInstallationPropertyType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="bridgePart" type="sip:BridgePartPropertyType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="shape" type="sip:ShapePropertyType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="damage" type="sip:DamagePropertyType" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="PointCloud" type="sip:PointCloudType" substitutionGroup="gml:AbstractGML"/>
+	<xs:complexType name="PointCloudPropertyType">
+		<xs:sequence minOccurs="0">
+			<xs:element ref="sip:PointCloud"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="gml:AssociationAttributeGroup"/>
+		<xs:attributeGroup ref="gml:OwnershipAttributeGroup"/>
+	</xs:complexType>
+	<xs:complexType name="PointCloudType">
+		<xs:complexContent>
+			<xs:extension base="gml:AbstractGMLType">
+				<xs:sequence>
+					<xs:element name="mimeType" type="gml:CodeType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>PointCloud_mimeType.xml</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="pointFile" type="xs:anyURI" minOccurs="0"/>
+					<xs:element name="pointFileSrsName" type="gml:stringOrNilReason" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="Photo" type="sip:PhotoType" substitutionGroup="gml:AbstractGML">
+		<xs:annotation>
+			<xs:documentation>写真</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="PhotoPropertyType">
+		<xs:sequence minOccurs="0">
+			<xs:element ref="sip:Photo"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="gml:AssociationAttributeGroup"/>
+		<xs:attributeGroup ref="gml:OwnershipAttributeGroup"/>
+	</xs:complexType>
+	<xs:complexType name="PhotoType">
+		<xs:complexContent>
+			<xs:extension base="gml:AbstractGMLType">
+				<xs:sequence>
+					<xs:element name="date" type="sip:dateOrNilReason"/>
+					<xs:element name="description" type="gml:stringOrNilReason" minOccurs="0"/>
+					<xs:element name="file" type="xs:anyURI"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="Drawing" type="sip:DrawingType" substitutionGroup="gml:AbstractGML">
+		<xs:annotation>
+			<xs:documentation>2025-10-08 継承元修正</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="DrawingPropertyType">
+		<xs:sequence minOccurs="0">
+			<xs:element ref="sip:Drawing"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="gml:AssociationAttributeGroup"/>
+		<xs:attributeGroup ref="gml:OwnershipAttributeGroup"/>
+	</xs:complexType>
+	<xs:complexType name="DrawingType">
+		<xs:complexContent>
+			<xs:extension base="gml:AbstractGMLType">
+				<xs:sequence>
+					<xs:element name="type" type="gml:CodeType"/>
+					<xs:element name="name" type="xs:string" minOccurs="0"/>
+					<xs:element name="file" type="xs:anyURI"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="BridgePhoto" type="sip:BridgePhotoType" substitutionGroup="sip:BridgeAttribute">
+		<xs:annotation>
+			<xs:documentation>橋梁写真</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="BridgePhotoPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:BridgePhoto"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BridgePhotoType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeAttributeType">
+				<xs:sequence>
+					<xs:element name="photo" type="sip:PhotoPropertyType"/>
+					<xs:element name="spanNumber" type="gml:stringOrNilReason" minOccurs="0"/>
+					<xs:element name="number" type="gml:stringOrNilReason" minOccurs="0"/>
+					<xs:element name="memo" type="gml:stringOrNilReason" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>2026-07-14 追加</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="BridgeDrawing" type="sip:BridgeDrawingType" substitutionGroup="sip:BridgeAttribute">
+		<xs:annotation>
+			<xs:documentation>橋梁図面</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="BridgeDrawingPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:BridgeDrawing"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BridgeDrawingType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeAttributeType">
+				<xs:sequence>
+					<xs:element name="drawing" type="sip:DrawingPropertyType"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="Resource" type="sip:ResourceType"/>
+	<xs:complexType name="ResourcePropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:Resource"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ResourceType">
+		<xs:sequence>
+			<xs:element name="authority" type="gml:stringOrNilReason" minOccurs="0"/>
+			<xs:element name="title" type="gml:stringOrNilReason"/>
+			<xs:element name="date" type="sip:dateOrNilReason" minOccurs="0"/>
+			<xs:element name="version" type="gml:stringOrNilReason" minOccurs="0"/>
+			<xs:element name="method" type="gml:stringOrNilReason" minOccurs="0"/>
+			<xs:element name="processType" type="gml:CodeType" minOccurs="0"/>
+			<xs:element name="note" type="gml:stringOrNilReason" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- 橋梁構造 -->
+	<xs:element name="BridgePart" type="sip:BridgePartType" substitutionGroup="sip:Bridge">
+		<xs:annotation>
+			<xs:documentation>橋梁部分・径間</xs:documentation>
+			<xs:documentation>2025-06-10 追加</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="BridgePartPropertyType">
+		<xs:sequence minOccurs="0">
+			<xs:element ref="sip:BridgePart"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="gml:AssociationAttributeGroup"/>
+		<xs:attributeGroup ref="gml:OwnershipAttributeGroup"/>
+	</xs:complexType>
+	<xs:complexType name="BridgePartType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="BridgeConstructiveElement" type="sip:BridgeConstructiveElementType" substitutionGroup="sip:Feature">
+		<xs:annotation>
+			<xs:documentation>橋梁構成要素</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="BridgeConstructiveElementPropertyType">
+		<xs:sequence minOccurs="0">
+			<xs:element ref="sip:BridgeConstructiveElement"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="gml:AssociationAttributeGroup"/>
+		<xs:attributeGroup ref="gml:OwnershipAttributeGroup"/>
+	</xs:complexType>
+	<xs:complexType name="BridgeConstructiveElementType">
+		<xs:complexContent>
+			<xs:extension base="sip:FeatureType">
+				<xs:sequence>
+					<xs:element name="spanNumber" type="gml:stringOrNilReason" minOccurs="0"/>
+					<xs:element name="componentName" type="gml:CodeType">
+						<xs:annotation>
+							<xs:documentation>Bridge_ComponentName.xml</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="componentNumber" type="gml:stringOrNilReason" minOccurs="0"/>
+					<xs:element name="bridgeAttribute" type="sip:BridgeAttributePropertyType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>2025-10-08 橋梁属性を持てるように修正。その他の属性は全て橋梁属性を継承させる。</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="shape" type="sip:ShapePropertyType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="superelement" type="sip:BridgeConstructiveElementPropertyType" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>2025-10-08 親も参照できるよう修正</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="subelement" type="sip:BridgeConstructiveElementPropertyType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="damage" type="sip:DamagePropertyType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>部材からも損傷が参照できるように修正</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="BridgeInstallation" type="sip:BridgeInstallationType" substitutionGroup="sip:Feature">
+		<xs:annotation>
+			<xs:documentation>橋梁付属物</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="BridgeInstallationPropertyType">
+		<xs:sequence minOccurs="0">
+			<xs:element ref="sip:BridgeInstallation"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="gml:AssociationAttributeGroup"/>
+		<xs:attributeGroup ref="gml:OwnershipAttributeGroup"/>
+	</xs:complexType>
+	<xs:complexType name="BridgeInstallationType">
+		<xs:complexContent>
+			<xs:extension base="sip:FeatureType">
+				<xs:sequence>
+					<xs:element name="spanNumber" type="gml:stringOrNilReason" minOccurs="0"/>
+					<xs:element name="componentName" type="gml:CodeType">
+						<xs:annotation>
+							<xs:documentation>Bridge_ComponentName.xml</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="componentNumber" type="gml:stringOrNilReason" minOccurs="0"/>
+					<xs:element name="bridgeAttribute" type="sip:BridgeAttributePropertyType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>2025-10-08 橋梁属性を持てるように修正。その他の属性は全て橋梁属性を継承させる。</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="shape" type="sip:ShapePropertyType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="superelement" type="sip:BridgeInstallationPropertyType" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>2025-10-08 親も参照できるよう修正</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="subelement" type="sip:BridgeInstallationPropertyType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="damage" type="sip:DamagePropertyType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>部材からも損傷が参照できるように修正</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- 形状情報 -->
+	<xs:element name="Shape" type="sip:ShapeType">
+		<xs:annotation>
+			<xs:documentation>形状情報</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="ShapePropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:Shape"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ShapeType">
+		<xs:sequence>
+			<xs:element name="acquisitionDate" type="sip:TimeTypePropertyType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>2025-10-08 時間属性の型変更</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="acquisitionMethod" type="gml:stringOrNilReason" minOccurs="0"/>
+			<xs:element name="resource" type="sip:ResourcePropertyType" minOccurs="0"/>
+			<xs:element name="geometricShape" type="gml:MultiSurfacePropertyType" minOccurs="0"/>
+			<xs:element name="pointCloud" type="sip:PointCloudPropertyType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>多重度要確認</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="layout" type="sip:LayoutInfoPropertyType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="georeference" type="sip:GeoreferenceInfoPropertyType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="GeoreferenceInfo" type="sip:GeoreferenceInfoType" substitutionGroup="gml:AbstractGML"/>
+	<xs:complexType name="GeoreferenceInfoPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:GeoreferenceInfo"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GeoreferenceInfoType">
+		<xs:complexContent>
+			<xs:extension base="gml:AbstractGMLType">
+				<xs:sequence>
+					<xs:element name="originCoord" type="gml:PointPropertyType"/>
+					<xs:element name="planarRectangularCoordinateSystem" type="gml:CodeType">
+						<xs:annotation>
+							<xs:documentation>GeoreferenceInfo_srs.xml</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="trueNorthDirection" type="gml:doubleOrNilReason"/>
+					<xs:element name="scale" type="gml:doubleOrNilReason"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="LayoutInfo" type="sip:LayoutInfoType"/>
+	<xs:complexType name="LayoutInfoPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:LayoutInfo"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LayoutInfoType">
+		<xs:sequence>
+			<xs:element name="offset" type="gml:PointPropertyType" minOccurs="0"/>
+			<xs:element name="layout" type="sip:LayoutPropertyType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="Layout" type="sip:LayoutType" abstract="true"/>
+	<xs:complexType name="LayoutPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:Layout"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LayoutType" abstract="true">
+		<xs:sequence>
+			<xs:element name="type" type="gml:CodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Layout_type.xml</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="axis" type="gml:CodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Layout_axis.xml</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="Size" type="sip:SizeType" substitutionGroup="sip:Layout"/>
+	<xs:complexType name="SizePropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:Size"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SizeType">
+		<xs:complexContent>
+			<xs:extension base="sip:LayoutType">
+				<xs:sequence>
+					<xs:element name="length" type="sip:MeasureOrNilReasonType"/>
+					<xs:element name="changeAxis" type="gml:CodeType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Layout_changeAxis.xml</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="measurementPoint" type="gml:CodeType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Layout_measurementPoint.xml</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="Spacing" type="sip:SpacingType" substitutionGroup="sip:Layout"/>
+	<xs:complexType name="SpacingPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:Spacing"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SpacingType">
+		<xs:complexContent>
+			<xs:extension base="sip:LayoutType">
+				<xs:sequence>
+					<xs:element name="length" type="sip:MeasureOrNilReasonType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>2026-03-31 spacingにタグを替える。多重度を1にする。</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="measurementPoint" type="gml:CodeType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Layout_measurementPoint.xml</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="Quantity" type="sip:QuantityType" substitutionGroup="sip:Layout"/>
+	<xs:complexType name="QuantityPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:Quantity"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="QuantityType">
+		<xs:complexContent>
+			<xs:extension base="sip:LayoutType">
+				<xs:sequence>
+					<xs:element name="count" type="gml:integerOrNilReason" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>2026-03-31 多重度を1にする。</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- 橋梁属性 -->
+	<xs:element name="BridgeAttribute" type="sip:BridgeAttributeType">
+		<xs:annotation>
+			<xs:documentation>2026-07-14 不足する属性があったらBridgeAttributeを使って記述できるように具象クラスに修正</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="BridgeAttributePropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:BridgeAttribute"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BridgeAttributeType">
+		<xs:sequence>
+			<xs:annotation>
+				<xs:documentation>2025-06-10 時間属性追加</xs:documentation>
+			</xs:annotation>
+			<xs:element name="temporalAttribute" type="sip:TimeTypePropertyType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="resource" type="sip:ResourcePropertyType" minOccurs="0"/>
+			<xs:element name="definition" type="sip:DefinitionPropertyType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>2026-07-14 定義を持てるように追加</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="attribute" type="sip:UserDefinedAttributePropertyType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>2026-07-14 任意の属性を追加する場合に使用</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="TimeType" type="sip:TimeTypeType">
+		<xs:annotation>
+			<xs:documentation>2025-06-10 時間属性追加</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="TimeTypePropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:TimeType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TimeTypeType">
+		<xs:sequence>
+			<xs:element name="eventType" type="gml:CodeType">
+				<xs:annotation>
+					<xs:documentation>TimeType_eventType.xml</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="timeStamp" type="sip:dateOrNilReason"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- 部材に定義していた属性を橋梁属性を継承するように修正 -->
+	<xs:element name="Composition" type="sip:CompositionType" substitutionGroup="sip:BridgeAttribute">
+		<xs:annotation>
+			<xs:documentation>材質</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="CompositionPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:Composition"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CompositionType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeAttributeType">
+				<xs:sequence>
+					<xs:element name="concreteStrength" type="sip:MeasureOrNilReasonType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>25-12-24型修正</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="reinforcementMaterial" type="gml:CodeType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Composition_reinforcementMaterial.xml</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="steelMaterial" type="gml:CodeType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Composition_steelMaterial.xml</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="PCsteelMaterial" type="gml:CodeType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Composition_PCsteelMaterial.xml</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="Substance" type="sip:SubstanceType" substitutionGroup="sip:BridgeAttribute">
+		<xs:annotation>
+			<xs:documentation>材料</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="SubstanceTypePropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:Substance"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SubstanceType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeAttributeType">
+				<xs:sequence>
+					<xs:element name="substanceType" type="gml:CodeType"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="RoadSurfaceType" type="sip:RoadSurfaceTypeType" substitutionGroup="sip:BridgeAttribute">
+		<xs:annotation>
+			<xs:documentation>舗装種別</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="RoadSurfaceTypePropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:RoadSurfaceType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RoadSurfaceTypeType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeAttributeType">
+				<xs:sequence>
+					<xs:element name="type" type="gml:CodeType"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="YearOfConstruction" type="sip:YearOfConstructionType" substitutionGroup="sip:BridgeAttribute">
+		<xs:annotation>
+			<xs:documentation>架設年</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="YearOfConstructionPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:YearOfConstruction"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="YearOfConstructionType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeAttributeType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="BridgeAge" type="sip:BridgeAgeType" substitutionGroup="sip:BridgeAttribute">
+		<xs:annotation>
+			<xs:documentation>供用年数</xs:documentation>
+			<xs:documentation>2026-07-14　追加</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="BridgeAgePropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:BridgeAge"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BridgeAgeType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeAttributeType">
+				<xs:sequence>
+					<xs:element name="age" type="gml:integerOrNilReason"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="LongitudinalSlope" type="sip:LongitudinalSlopeType" substitutionGroup="sip:BridgeAttribute">
+		<xs:annotation>
+			<xs:documentation>縦断勾配</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="LongitudinalSlopePropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:LongitudinalSlope"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LongitudinalSlopeType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeAttributeType">
+				<xs:sequence>
+					<xs:element name="sectionNumber" type="xs:integer" minOccurs="0"/>
+					<xs:element name="slope" type="xs:double"/>
+					<xs:element name="startDistance" type="xs:double" minOccurs="0"/>
+					<xs:element name="length" type="xs:double" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="SpanCount" type="sip:SpanCountType" substitutionGroup="sip:BridgeAttribute">
+		<xs:annotation>
+			<xs:documentation>径間数</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="SpanCountPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:SpanCount"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SpanCountType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeAttributeType">
+				<xs:sequence>
+					<xs:element name="count" type="xs:integer"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="SupportNumber" type="sip:SupportNumberType" substitutionGroup="sip:BridgeAttribute">
+		<xs:annotation>
+			<xs:documentation>支間番号</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="SupportNumberPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:SupportNumber"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SupportNumberType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeAttributeType">
+				<xs:sequence>
+					<xs:element name="number" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="UpDownType" type="sip:UpDownTypeType" substitutionGroup="sip:BridgeAttribute">
+		<xs:annotation>
+			<xs:documentation>上下線区分</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="UpDownTypePropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:UpDownType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="UpDownTypeType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeAttributeType">
+				<xs:sequence>
+					<xs:element name="type" type="gml:CodeType"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="UserDefinedAttribute" type="sip:UserDefinedAttributeType" abstract="true">
+		<xs:annotation>
+			<xs:documentation>任意属性</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="UserDefinedAttributePropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:UserDefinedAttribute"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="UserDefinedAttributeType" abstract="true">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>2026-07-14 型修正</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="StringAttribute" type="sip:StringAttributeType" substitutionGroup="sip:UserDefinedAttribute">
+		<xs:annotation>
+			<xs:documentation>文字列型属性</xs:documentation>
+			<xs:documentation>2026‐07‐14 abstractになっていたので修正</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="StringAttributePropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:StringAttribute"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="StringAttributeType">
+		<xs:complexContent>
+			<xs:extension base="sip:UserDefinedAttributeType">
+				<xs:sequence>
+					<xs:element name="value" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="DoubleAttribute" type="sip:DoubleAttributeType" substitutionGroup="sip:UserDefinedAttribute">
+		<xs:annotation>
+			<xs:documentation>実数型属性</xs:documentation>
+			<xs:documentation>2026‐07‐14 abstractになっていたので修正</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="DoubleAttributePropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:DoubleAttribute"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DoubleAttributeType">
+		<xs:complexContent>
+			<xs:extension base="sip:UserDefinedAttributeType">
+				<xs:sequence>
+					<xs:element name="value" type="xs:double"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CodeAttribute" type="sip:CodeAttributeType" substitutionGroup="sip:UserDefinedAttribute">
+		<xs:annotation>
+			<xs:documentation>コード値型属性</xs:documentation>
+			<xs:documentation>2026‐07‐14 abstractになっていたので修正</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="CodeAttributePropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:CodeAttribute"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CodeAttributeType">
+		<xs:complexContent>
+			<xs:extension base="sip:UserDefinedAttributeType">
+				<xs:sequence>
+					<xs:element name="value" type="gml:CodeType"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="BooleanAttribute" type="sip:BooleanAttributeType" substitutionGroup="sip:UserDefinedAttribute">
+		<xs:annotation>
+			<xs:documentation>真偽値型属性</xs:documentation>
+			<xs:documentation>2026‐07‐14 abstractになっていたので修正</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="BooleanAttributePropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:BooleanAttribute"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BooleanAttributeType">
+		<xs:complexContent>
+			<xs:extension base="sip:UserDefinedAttributeType">
+				<xs:sequence>
+					<xs:element name="value" type="xs:boolean"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="IntegerAttribute" type="sip:IntegerAttributeType" substitutionGroup="sip:UserDefinedAttribute">
+		<xs:annotation>
+			<xs:documentation>整数値型属性</xs:documentation>
+			<xs:documentation>2026‐07‐14 abstractになっていたので修正</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="IntegerAttributePropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:IntegerAttribute"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="IntegerAttributeType">
+		<xs:complexContent>
+			<xs:extension base="sip:UserDefinedAttributeType">
+				<xs:sequence>
+					<xs:element name="value" type="xs:integer"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="UriAttribute" type="sip:UriAttributeType" substitutionGroup="sip:UserDefinedAttribute">
+		<xs:annotation>
+			<xs:documentation>URI型属性</xs:documentation>
+			<xs:documentation>2026-07-14 ID参照用に追加</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="UriAttributePropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:UriAttribute"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="UriAttributeType">
+		<xs:complexContent>
+			<xs:extension base="sip:UserDefinedAttributeType">
+				<xs:sequence>
+					<xs:element name="value" type="xs:anyURI"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- 部材に定義していた属性を橋梁属性を継承する定義に修正 ここまで -->
+	<xs:element name="BridgeIdInfo" type="sip:BridgeIdInfoType" substitutionGroup="sip:BridgeAttribute">
+		<xs:annotation>
+			<xs:documentation>橋梁識別情報</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="BridgeIdInfoPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:BridgeIdInfo"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BridgeIdInfoType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeAttributeType">
+				<xs:sequence>
+					<xs:element name="bridgeCode" type="gml:stringOrNilReason" minOccurs="0"/>
+					<xs:element name="furigana" type="gml:stringOrNilReason" minOccurs="0"/>
+					<xs:element name="bridgeID" type="gml:stringOrNilReason" minOccurs="0"/>
+					<xs:element name="bridgeName" type="gml:stringOrNilReason" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="EmergencyTransportationRoute" type="sip:EmergencyTransportationRouteType" substitutionGroup="sip:BridgeAttribute">
+		<xs:annotation>
+			<xs:documentation>緊急輸送路の指定</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="EmergencyTransportationRoutePropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:EmergencyTransportationRoute"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EmergencyTransportationRouteType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeAttributeType">
+				<xs:sequence>
+					<xs:element name="routeType" type="gml:CodeType">
+						<xs:annotation>
+							<xs:documentation>EmergencyTransportRoute_routeType.xml</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="Length" type="sip:LengthType" substitutionGroup="sip:BridgeAttribute">
+		<xs:annotation>
+			<xs:documentation>長さ</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="LengthPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:Length"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LengthType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeAttributeType">
+				<xs:sequence>
+					<xs:element name="length" type="sip:MeasureOrNilReasonType"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="BridgeLength" type="sip:BridgeLengthType" substitutionGroup="sip:Length">
+		<xs:annotation>
+			<xs:documentation>橋長</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="BridgeLengthPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:BridgeLength"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BridgeLengthType">
+		<xs:complexContent>
+			<xs:extension base="sip:LengthType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="ClearSpan" type="sip:ClearSpanType" substitutionGroup="sip:Length">
+		<xs:annotation>
+			<xs:documentation>遊間</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="ClearSpanPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:ClearSpan"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ClearSpanType">
+		<xs:complexContent>
+			<xs:extension base="sip:LengthType">
+				<xs:sequence>
+					<xs:element name="componentStartSide" type="gml:stringOrNilReason"/>
+					<xs:element name="componentEndSide" type="gml:stringOrNilReason"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="SupportLength" type="sip:SupportLengthType" substitutionGroup="sip:Length">
+		<xs:annotation>
+			<xs:documentation>支間長</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="SupportLengthPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:SupportLength"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SupportLengthType">
+		<xs:complexContent>
+			<xs:extension base="sip:LengthType">
+				<xs:sequence>
+					<xs:element name="spanNumber" type="gml:stringOrNilReason" minOccurs="0"/>
+					<xs:element name="supportNumber" type="gml:stringOrNilReason" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="Area" type="sip:AreaType" substitutionGroup="sip:BridgeAttribute">
+		<xs:annotation>
+			<xs:documentation>面積</xs:documentation>
+			<xs:documentation>25-12-24追加</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="AreaPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:Area"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AreaType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeAttributeType">
+				<xs:sequence>
+					<xs:element name="area" type="sip:MeasureOrNilReasonType"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="ImportanceCategory" type="sip:ImportanceCategoryType" substitutionGroup="sip:BridgeAttribute">
+		<xs:annotation>
+			<xs:documentation>重要度区分</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="ImportanceCategoryPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:ImportanceCategory"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ImportanceCategoryType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeAttributeType">
+				<xs:sequence>
+					<xs:element name="category" type="gml:CodeType">
+						<xs:annotation>
+							<xs:documentation>ImportanceCategory_category.xml</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="StartDateOfUse" type="sip:StartDateOfUseType" substitutionGroup="sip:BridgeAttribute">
+		<xs:annotation>
+			<xs:documentation>供用開始日</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="StartDateOfUsePropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:StartDateOfUse"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="StartDateOfUseType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeAttributeType">
+				<xs:annotation>
+					<xs:documentation>2025-06-10 時間属性削除</xs:documentation>
+				</xs:annotation>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="BridgeLocation" type="sip:BridgeLocationType" substitutionGroup="sip:BridgeAttribute">
+		<xs:annotation>
+			<xs:documentation>橋梁位置</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="BridgeLocationPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:BridgeLocation"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BridgeLocationType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeAttributeType">
+				<xs:sequence>
+					<xs:element name="locationFrom" type="gml:stringOrNilReason"/>
+					<xs:element name="locationTo" type="gml:stringOrNilReason" minOccurs="0"/>
+					<xs:element name="distanceMarkerFrom" type="sip:MeasureOrNilReasonType"/>
+					<xs:element name="distanceMarkerTo" type="sip:MeasureOrNilReasonType" minOccurs="0"/>
+					<xs:element name="startCoordinates" type="gml:stringOrNilReason" minOccurs="0"/>
+					<xs:element name="endCoordinates" type="gml:stringOrNilReason" minOccurs="0"/>
+					<xs:element name="startPos" type="gml:PointPropertyType" minOccurs="0"/>
+					<xs:element name="endPos" type="gml:PointPropertyType" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="BridgeSpecifications" type="sip:BridgeSpecificationsType" substitutionGroup="sip:BridgeAttribute">
+		<xs:annotation>
+			<xs:documentation>構造諸元</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="BridgeSpecificationsPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:BridgeSpecifications"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BridgeSpecificationsType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeAttributeType">
+				<xs:sequence>
+					<xs:element name="method" type="gml:CodeType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>BridgeSpecifications_method.xml</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="bearingType" type="gml:CodeType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>BridgeSpecifications_bearingType.xml</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="expansionType" type="gml:CodeType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>BridgeSpecifications_expansionType.xml</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="angleStart" type="gml:doubleOrNilReason" minOccurs="0"/>
+					<xs:element name="angleEnd" type="gml:doubleOrNilReason" minOccurs="0"/>
+					<xs:element name="upperSegregation" type="gml:booleanOrNilReason" minOccurs="0"/>
+					<xs:element name="remarks" type="gml:stringOrNilReason" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="ApplicableGuidelines" type="sip:ApplicableGuidelinesType" substitutionGroup="sip:BridgeAttribute">
+		<xs:annotation>
+			<xs:documentation>適用示方書</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="ApplicableGuidelinesPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:ApplicableGuidelines"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ApplicableGuidelinesType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeAttributeType">
+				<xs:sequence>
+					<xs:element name="guidelines" type="gml:CodeType">
+						<xs:annotation>
+							<xs:documentation>ApplicableGuidelines_guidelines.xml</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="BridgeType" type="sip:BridgeTypeType" substitutionGroup="sip:BridgeAttribute">
+		<xs:annotation>
+			<xs:documentation>橋梁形式</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="BridgeTypePropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:BridgeType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BridgeTypeType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeAttributeType">
+				<xs:sequence>
+					<xs:annotation>
+						<xs:documentation>2025-06-10 多重度修正</xs:documentation>
+					</xs:annotation>
+					<xs:element name="upperType" type="gml:CodeType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>BridgeType_upperType.xml</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="slabType" type="gml:CodeType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>BridgeType_slabType.xml</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="lowerType" type="gml:CodeType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>BridgeType_lowerType.xml</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="foundationType" type="gml:CodeType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>BridgeType_foundtionType.xml</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="RoadStructure" type="sip:RoadStructureType" substitutionGroup="sip:BridgeAttribute">
+		<xs:annotation>
+			<xs:documentation>道路構造</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="RoadStructurePropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:RoadStructure"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RoadStructureType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeAttributeType">
+				<xs:sequence>
+					<xs:element name="totalWidth" type="sip:MeasureOrNilReasonType" minOccurs="0"/>
+					<xs:element name="effectiveWidth" type="sip:MeasureOrNilReasonType" minOccurs="0"/>
+					<xs:element name="coverWidthUp" type="sip:MeasureOrNilReasonType" minOccurs="0"/>
+					<xs:element name="sidewalkWidthUp" type="sip:MeasureOrNilReasonType" minOccurs="0"/>
+					<xs:element name="sidewalkTypeUp" type="gml:CodeType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>2025-11-10 歩道の形式</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="curbHeightUp" type="sip:MeasureOrNilReasonType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>2025-11-10 縁石の高さ</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="laneWidthUp" type="sip:MeasureOrNilReasonType" minOccurs="0"/>
+					<xs:element name="laneCountUp" type="gml:integerOrNilReason" minOccurs="0"/>
+					<xs:element name="laneWidthDown" type="sip:MeasureOrNilReasonType" minOccurs="0"/>
+					<xs:element name="laneCountDown" type="gml:integerOrNilReason" minOccurs="0"/>
+					<xs:element name="sidewalkWidthDown" type="sip:MeasureOrNilReasonType" minOccurs="0"/>
+					<xs:element name="sidewalkTypeDown" type="gml:CodeType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>2025-11-10 歩道の形式</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="curbHeightDown" type="sip:MeasureOrNilReasonType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>2025-11-10 縁石の高さ</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="coverWidthDown" type="sip:MeasureOrNilReasonType" minOccurs="0"/>
+					<xs:element name="centerStrip" type="sip:MeasureOrNilReasonType" minOccurs="0"/>
+					<xs:element name="medianStrip" type="sip:MeasureOrNilReasonType" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="Load" type="sip:LoadType" substitutionGroup="sip:BridgeAttribute">
+		<xs:annotation>
+			<xs:documentation>荷重</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="LoadPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:Load"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LoadType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeAttributeType">
+				<xs:sequence>
+					<xs:element name="designLoad" type="gml:CodeType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Load_designLoad.xml</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="grade" type="gml:CodeType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Load_grade.xml</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="deadLoad" type="gml:doubleOrNilReason" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="StructuralInformation" type="sip:StructuralInformationType" substitutionGroup="sip:BridgeAttribute">
+		<xs:annotation>
+			<xs:documentation>構造情報</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="StructuralInformationPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:StructuralInformation"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="StructuralInformationType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeAttributeType">
+				<xs:sequence>
+					<xs:element name="designMoment" type="gml:doubleOrNilReason" minOccurs="0"/>
+					<xs:element name="designShear" type="gml:doubleOrNilReason" minOccurs="0"/>
+					<xs:element name="upperReaction" type="gml:doubleOrNilReason" minOccurs="0"/>
+					<xs:element name="unitWeight" type="gml:doubleOrNilReason" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="Route" type="sip:RouteType" substitutionGroup="sip:BridgeAttribute">
+		<xs:annotation>
+			<xs:documentation>路線</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="RoutePropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:Route"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RouteType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeAttributeType">
+				<xs:sequence>
+					<xs:element name="name" type="gml:stringOrNilReason"/>
+					<xs:element name="type" type="gml:CodeType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Route_type.xml</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="Administrator" type="sip:AdministratorType" substitutionGroup="sip:BridgeAttribute">
+		<xs:annotation>
+			<xs:documentation>管理者</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="AdministratorPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:Administrator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AdministratorType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeAttributeType">
+				<xs:sequence>
+					<xs:element name="orgName" type="gml:CodeType">
+						<xs:annotation>
+							<xs:documentation>Administrator_orgName.xml</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="PresenceOfWaterproofingLayer" type="sip:PresenceOfWaterproofingLayerType" substitutionGroup="sip:BridgeAttribute">
+		<xs:annotation>
+			<xs:documentation>防水層有無</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="PresenceOfWaterproofingLayerPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:PresenceOfWaterproofingLayer"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PresenceOfWaterproofingLayerType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeAttributeType">
+				<xs:sequence>
+					<xs:element name="layerType" type="gml:CodeType">
+						<xs:annotation>
+							<xs:documentation>PresenceOfWaterproofingLayer_layerType.xml</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="TrafficVolume" type="sip:TrafficVolumeType" substitutionGroup="sip:BridgeAttribute">
+		<xs:annotation>
+			<xs:documentation>交通量</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="TrafficVolumePropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:TrafficVolume"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TrafficVolumeType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeAttributeType">
+				<xs:sequence>
+					<xs:annotation>
+						<xs:documentation>2025-06-10 surveyYear 削除（継承する時間属性で表現）</xs:documentation>
+					</xs:annotation>
+					<xs:element name="trafficDaytime12h" type="gml:integerOrNilReason" minOccurs="0"/>
+					<xs:element name="traffic24h" type="gml:integerOrNilReason" minOccurs="0"/>
+					<xs:element name="largeVehicleRate" type="gml:doubleOrNilReason" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="LoadLimit" type="sip:LoadLimitType" substitutionGroup="sip:BridgeAttribute">
+		<xs:annotation>
+			<xs:documentation>荷重制限</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="LoadLimitPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:LoadLimit"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LoadLimitType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeAttributeType">
+				<xs:sequence>
+					<xs:annotation>
+						<xs:documentation>2025-06-10 regulationYear 削除（継承する時間属性で表現）</xs:documentation>
+					</xs:annotation>
+					<xs:element name="isLimited" type="gml:booleanOrNilReason"/>
+					<xs:element name="limitLoad" type="gml:doubleOrNilReason" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="ReinforcementInformation" type="sip:ReinforcementInformationType" substitutionGroup="sip:BridgeAttribute">
+		<xs:annotation>
+			<xs:documentation>鉄筋情報</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="ReinforcementInformationPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:ReinforcementInformation"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ReinforcementInformationType">
+		<xs:annotation>
+			<xs:documentation>2026-02-16　属性追加</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeAttributeType">
+				<xs:sequence>
+					<xs:element name="spanNumber" type="gml:stringOrNilReason" minOccurs="0"/>
+					<xs:element name="componentNumber" type="gml:stringOrNilReason" minOccurs="0"/>
+					<xs:element name="cover" type="gml:doubleOrNilReason" minOccurs="0"/>
+					<xs:element name="rebarDiameter" type="gml:doubleOrNilReason" minOccurs="0"/>
+					<xs:element name="rebarSpacing" type="gml:doubleOrNilReason" minOccurs="0"/>
+					<xs:element name="rebarQuantity" type="gml:doubleOrNilReason" minOccurs="0"/>
+					<xs:element name="rebarCount" type="gml:integerOrNilReason" minOccurs="0"/>
+					<xs:element name="composition" type="sip:CompositionPropertyType" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="SaltDamageClassification" type="sip:SaltDamageClassificationType" substitutionGroup="sip:BridgeAttribute">
+		<xs:annotation>
+			<xs:documentation>塩害区分</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="SaltDamageClassificationPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:SaltDamageClassification"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SaltDamageClassificationType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeAttributeType">
+				<xs:sequence>
+					<xs:element name="areaType" type="gml:CodeType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>SaltDamageClassification_areaType.xml</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="measureType" type="gml:CodeType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>SaltDamageClassification_measureType.xml</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="distanceFromCoast" type="gml:stringOrNilReason"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="AsBuiltDrawings" type="sip:AsBuiltDrawingsType" substitutionGroup="sip:BridgeDrawing">
+		<xs:annotation>
+			<xs:documentation>竣工図</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="AsBuiltDrawingsPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:AsBuiltDrawings"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AsBuiltDrawingsType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeDrawingType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="SpanGeneralDiagrams" type="sip:SpanGeneralDiagramsType" substitutionGroup="sip:BridgeDrawing">
+		<xs:annotation>
+			<xs:documentation>径間一般図</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="SpanGeneralDiagramsPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:SpanGeneralDiagrams"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SpanGeneralDiagramsType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeDrawingType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="AssemblyDrawings" type="sip:AssemblyDrawingsType" substitutionGroup="sip:BridgeDrawing">
+		<xs:annotation>
+			<xs:documentation>AsBuiltDrawings</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="AssemblyDrawingsPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:AssemblyDrawings"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AssemblyDrawingsType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeDrawingType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CrossingConditions" type="sip:CrossingConditionsType" substitutionGroup="sip:BridgeAttribute">
+		<xs:annotation>
+			<xs:documentation>交差条件</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="CrossingConditionsPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:CrossingConditions"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CrossingConditionsType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeAttributeType">
+				<xs:sequence>
+					<xs:element name="crossingConditions" type="gml:stringOrNilReason"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GeologicalConditions" type="sip:GeologicalConditionsType" substitutionGroup="sip:BridgeAttribute">
+		<xs:annotation>
+			<xs:documentation>地質条件</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="GeologicalConditionsPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:GeologicalConditions"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GeologicalConditionsType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeAttributeType">
+				<xs:sequence>
+					<xs:element name="boringLog" type="xs:anyURI" minOccurs="0"/>
+					<xs:element name="soilConstants" type="gml:doubleOrNilReason" minOccurs="0"/>
+					<xs:element name="liquefactionExistence" type="gml:booleanOrNilReason" minOccurs="0"/>
+					<xs:element name="groundType" type="gml:CodeType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>GeologicalConditions_groundType.xml</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="Painting" type="sip:PaintingType" substitutionGroup="sip:BridgeAttribute">
+		<xs:annotation>
+			<xs:documentation>塗装の種類</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="PaintingPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:Painting"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PaintingType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeAttributeType">
+				<xs:sequence>
+					<xs:element name="paintingType" type="gml:CodeType">
+						<xs:annotation>
+							<xs:documentation>Painting_paintingType.xml</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="AdditionalNotes" type="sip:AdditionalNotesType" substitutionGroup="sip:BridgeAttribute">
+		<xs:annotation>
+			<xs:documentation>補足事項</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="AdditionalNotesPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:AdditionalNotes"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AdditionalNotesType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeAttributeType">
+				<xs:sequence>
+					<xs:element name="approachMethod" type="gml:stringOrNilReason" minOccurs="0"/>
+					<xs:element name="trafficRestriction" type="gml:stringOrNilReason" minOccurs="0"/>
+					<xs:element name="consultation" type="gml:stringOrNilReason" minOccurs="0"/>
+					<xs:element name="thirdPartyInspection" type="gml:stringOrNilReason" minOccurs="0"/>
+					<xs:element name="inspectionRoute" type="gml:stringOrNilReason" minOccurs="0"/>
+					<xs:element name="repairReinforcement" type="gml:stringOrNilReason" minOccurs="0"/>
+					<xs:element name="otherRemarks" type="gml:stringOrNilReason" minOccurs="0"/>
+					<!-- 以下、子要素追加 20251010 -->
+					<xs:element name="occupiedProperty" type="gml:stringOrNilReason" minOccurs="0"/>
+					<xs:element name="underRoadCondition" type="gml:stringOrNilReason" minOccurs="0"/>
+					<xs:element name="alternativeRoute" type="gml:stringOrNilReason" minOccurs="0"/>
+					<xs:element name="expressway" type="gml:stringOrNilReason" minOccurs="0"/>
+					<xs:element name="snowyRegion" type="gml:stringOrNilReason" minOccurs="0"/>
+					<xs:element name="antiFreezingAgentDispersion" type="gml:stringOrNilReason" minOccurs="0"/>
+					<xs:element name="did" type="gml:booleanOrNilReason" minOccurs="0"/>
+					<xs:element name="busRoute" type="gml:booleanOrNilReason" minOccurs="0"/>
+					<xs:element name="isolatedSettlement" type="gml:booleanOrNilReason" minOccurs="0"/>
+					<xs:element name="rainfallRestriction" type="gml:booleanOrNilReason" minOccurs="0"/>
+					<xs:element name="winterClosure" type="gml:booleanOrNilReason" minOccurs="0"/>
+					<xs:element name="aestheticConsideration" type="gml:booleanOrNilReason" minOccurs="0"/>
+					<xs:element name="historicalValue" type="gml:booleanOrNilReason" minOccurs="0"/>
+					<xs:element name="schoolRoute" type="gml:booleanOrNilReason" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>2026-07-14 追加</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="evacuationRoute" type="gml:booleanOrNilReason" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>2026-07-14 追加</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- ================================= -->
+	<!-- ========   維持管理モデル   ======== -->
+	<!-- ================================= -->
+	<!-- ============   損傷   ============ -->
+	<xs:element name="Damage" type="sip:DamageType" substitutionGroup="sip:Feature">
+		<xs:annotation>
+			<xs:documentation>損傷</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="DamagePropertyType">
+		<xs:sequence minOccurs="0">
+			<xs:element ref="sip:Damage"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="gml:AssociationAttributeGroup"/>
+		<xs:attributeGroup ref="gml:OwnershipAttributeGroup"/>
+	</xs:complexType>
+	<xs:complexType name="DamageType">
+		<xs:complexContent>
+			<xs:extension base="sip:FeatureType">
+				<xs:sequence>
+					<xs:element name="type" type="gml:CodeType">
+						<xs:annotation>
+							<xs:documentation>Damage_type.xml</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="date" type="sip:TimeTypePropertyType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="previousRecord" type="sip:DamagePropertyType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>2025-05-13　型・多重度修正</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="damageAttribute" type="sip:DamageAttributePropertyType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="surface" type="gml:MultiSurfacePropertyType" minOccurs="0"/>
+					<xs:element name="curve" type="gml:MultiCurvePropertyType" minOccurs="0"/>
+					<xs:element name="pointCloud" type="sip:PointCloudPropertyType" minOccurs="0"/>
+					<xs:element name="bridge" type="sip:BridgePropertyType" minOccurs="0"/>
+					<xs:element name="mainComponent" type="sip:BridgeConstructiveElementPropertyType" minOccurs="0"/>
+					<xs:element name="accessoryComponent" type="sip:BridgeInstallationPropertyType" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="DamageAttribute" type="sip:DamageAttributeType"/>
+	<xs:complexType name="DamageAttributePropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:DamageAttribute"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DamageAttributeType">
+		<xs:sequence>
+			<xs:annotation>
+				<xs:documentation>2025-10-08 損傷属性追加</xs:documentation>
+				<xs:documentation>2026-07-14 具象に変更</xs:documentation>
+			</xs:annotation>
+			<xs:element name="temporalAttribute" type="sip:TimeTypePropertyType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="resource" type="sip:ResourcePropertyType" minOccurs="0"/>
+			<xs:element name="definition" type="sip:DefinitionPropertyType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>2026-07-14 定義を持てるように追加</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="attribute" type="sip:UserDefinedAttributePropertyType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>2026-07-14 任意の属性を追加する場合に使用</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="DamageDetails" type="sip:DamageDetailsType" substitutionGroup="sip:DamageAttribute">
+		<xs:annotation>
+			<xs:documentation>2025-10-08 損傷詳細追加</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="DamageDetailsPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:DamageDetails"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DamageDetailsType">
+		<xs:complexContent>
+			<xs:extension base="sip:DamageAttributeType">
+				<xs:sequence>
+					<xs:element name="assessment" type="gml:CodeType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Damage_assessment.xml</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="length" type="sip:MeasureOrNilReasonType" minOccurs="0"/>
+					<xs:element name="width" type="sip:MeasureOrNilReasonType" minOccurs="0"/>
+					<xs:element name="category" type="gml:CodeType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Damage_category.xml</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="progression" type="gml:stringOrNilReason" minOccurs="0"/>
+					<xs:element name="causeEstimated" type="gml:stringOrNilReason" minOccurs="0"/>
+					<xs:element name="causeConfirmed" type="gml:stringOrNilReason" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="DamagePhoto" type="sip:DamagePhotoType" substitutionGroup="sip:DamageAttribute">
+		<xs:annotation>
+			<xs:documentation>2025-10-08 損傷写真追加</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="DamagePhotoPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:DamagePhoto"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DamagePhotoType">
+		<xs:complexContent>
+			<xs:extension base="sip:DamageAttributeType">
+				<xs:sequence>
+					<xs:element name="photo" type="sip:PhotoPropertyType"/>
+					<xs:element name="spanNumber" type="gml:stringOrNilReason" minOccurs="0"/>
+					<xs:element name="number" type="gml:stringOrNilReason" minOccurs="0"/>
+					<xs:element name="memo" type="gml:stringOrNilReason" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="DamageDrawing" type="sip:DamageDrawingType" substitutionGroup="sip:DamageAttribute">
+		<xs:annotation>
+			<xs:documentation>2025-10-08 損傷図面追加</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="DamageDrawingPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:DamageDrawing"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DamageDrawingType">
+		<xs:complexContent>
+			<xs:extension base="sip:DamageAttributeType">
+				<xs:sequence>
+					<xs:element name="drawing" type="sip:DrawingPropertyType"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="DamageLocation" type="sip:DamageLocationType" substitutionGroup="sip:DamageAttribute">
+		<xs:annotation>
+			<xs:documentation>損傷場所</xs:documentation>
+			<xs:documentation>2025-10-08 損傷属性を継承するように修正</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="DamageLocationPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:DamageLocation"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DamageLocationType">
+		<xs:complexContent>
+			<xs:extension base="sip:DamageAttributeType">
+				<xs:sequence>
+					<xs:element name="spanNumber" type="gml:stringOrNilReason" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>2025-05-30 追加</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="componentName" type="gml:CodeType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Bridge_ComponentName.xml</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="elementNumber" type="gml:stringOrNilReason"/>
+					<xs:element name="pattern" type="gml:stringOrNilReason" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>2025-10-08 損傷パターン移動</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!--  ======== 維持管理プロセス及び維持管理の結果の定義 ========  -->
+	<!--  ======== 維持管理プロセスの定義 ========  -->
+	<!-- 橋梁点検、補修設計、修繕計画などの各プロセスは、橋梁属性とする -->
+	<!-- 維持管理プロセスのルートクラス -->
+	<xs:element name="BridgeMaintenanceProcess" type="sip:BridgeMaintenanceProcessType" substitutionGroup="sip:BridgeAttribute">
+		<xs:annotation>
+			<xs:documentation>橋梁維持管理プロセス</xs:documentation>
+			<xs:documentation>汎用的な具象クラスとして定義しておき、今後増える場合は、これを使って記述する。</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="BridgeMaintenanceProcessPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:BridgeMaintenanceProcess"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BridgeMaintenanceProcessType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeAttributeType">
+				<xs:sequence>
+					<xs:element name="bridgeName" type="xs:string"/>
+					<xs:element name="processAssignee" type="sip:AssigneePropertyType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>点検や補修設計等の各プロセスの担当者</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="processData" type="sip:ApplicationInfoPropertyType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>このプロセスのIN/OUTとして必要な情報項目のリスト。データそのものではなく、目録。このリストに基づいて必要な情報を抽出するために使用する想定</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="result" type="sip:MaintenanceResultPropertyType" minOccurs="0"/>
+				</xs:sequence>
+				<xs:attribute ref="gml:id"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="Assignee" type="sip:AssigneeType" substitutionGroup="gml:AbstractGML">
+		<xs:annotation>
+			<xs:documentation>担当者</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="AssigneeType">
+		<xs:complexContent>
+			<xs:extension base="gml:AbstractGMLType">
+				<xs:sequence>
+					<xs:element name="name" type="xs:string"/>
+					<xs:element name="organization" type="xs:string"/>
+					<xs:element name="role" type="gml:CodeType"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="AssigneePropertyType">
+		<xs:sequence minOccurs="0">
+			<xs:element ref="sip:Assignee"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="gml:AssociationAttributeGroup"/>
+		<xs:attributeGroup ref="gml:OwnershipAttributeGroup"/>
+	</xs:complexType>
+	<xs:element name="ApplicationInfo" type="sip:ApplicationInfoType" substitutionGroup="gml:AbstractObject">
+		<xs:annotation>
+			<xs:documentation>用途別必要な情報のリスト</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="ApplicationInfoType">
+		<xs:sequence>
+			<xs:element name="ioType" type="gml:CodeType"/>
+			<xs:element name="info" type="sip:DefinitionPropertyType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ApplicationInfoPropertyType">
+		<xs:sequence minOccurs="0">
+			<xs:element ref="sip:ApplicationInfo"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- プロセスの下位クラス -->
+	<!-- 橋梁点検は、維持管理プロセスを継承するように修正 -->
+	<xs:element name="BridgeCheckLog" type="sip:BridgeCheckLogType" substitutionGroup="sip:BridgeMaintenanceProcess">
+		<xs:annotation>
+			<xs:documentation>橋梁点検</xs:documentation>
+			<xs:documentation>2026-07-14 橋梁属性を間接的に継承するため、時間属性は削除。準拠要領も削除。維持管理プロセスに橋梁名と担当者を定義しているため、これらも削除</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="BridgeCheckLogPropertyType">
+		<xs:annotation>
+			<xs:documentation>2026-02-16 idrefを追加</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0">
+			<xs:element ref="sip:BridgeCheckLog"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="gml:AssociationAttributeGroup"/>
+		<xs:attributeGroup ref="gml:OwnershipAttributeGroup"/>
+	</xs:complexType>
+	<xs:complexType name="BridgeCheckLogType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeMaintenanceProcessType">
+				<xs:sequence>
+					<xs:element name="checkType" type="gml:CodeType" minOccurs="0"/>
+					<xs:element name="bridgeEvaluator" type="gml:stringOrNilReason" minOccurs="0"/>
+					<xs:element name="surveyMethod" type="gml:stringOrNilReason" minOccurs="0"/>
+					<xs:element name="inspectionMethod" type="gml:stringOrNilReason" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- 修繕計画 26-07-14追加-->
+	<xs:element name="RepairPlan" type="sip:RepairPlanType" substitutionGroup="sip:BridgeMaintenanceProcess">
+		<xs:annotation>
+			<xs:documentation>修繕計画</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="RepairPlanPropertyType">
+		<xs:sequence minOccurs="0">
+			<xs:element ref="sip:RepairPlan"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="gml:AssociationAttributeGroup"/>
+		<xs:attributeGroup ref="gml:OwnershipAttributeGroup"/>
+	</xs:complexType>
+	<xs:complexType name="RepairPlanType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeMaintenanceProcessType">
+				<xs:sequence>
+					<xs:element name="previousPlan" type="sip:RepairPlanPropertyType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>前回計画</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- 補修設計 26-07-14追加 -->
+	<xs:element name="RepairDesign" type="sip:RepairDesignType" substitutionGroup="sip:BridgeMaintenanceProcess">
+		<xs:annotation>
+			<xs:documentation>補修設計</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="RepairDesignPropertyType">
+		<xs:sequence minOccurs="0">
+			<xs:element ref="sip:RepairDesign"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="gml:AssociationAttributeGroup"/>
+		<xs:attributeGroup ref="gml:OwnershipAttributeGroup"/>
+	</xs:complexType>
+	<xs:complexType name="RepairDesignType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeMaintenanceProcessType">
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- 補修補強  26-07-14他に合わせて追加　-->
+	<xs:element name="RepairReinforcement" type="sip:RepairReinforcementType" substitutionGroup="sip:BridgeMaintenanceProcess">
+		<xs:annotation>
+			<xs:documentation>補修補強</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="RepairReinforcementPropertyType">
+		<xs:sequence minOccurs="0">
+			<xs:element ref="sip:RepairReinforcement"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="gml:AssociationAttributeGroup"/>
+		<xs:attributeGroup ref="gml:OwnershipAttributeGroup"/>
+	</xs:complexType>
+	<xs:complexType name="RepairReinforcementType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeMaintenanceProcessType">
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- ======== 維持管理の結果の定義 ======== -->
+	<!-- 補修設計や修繕計画などの各プロセスの結果は、橋梁属性とする -->
+	<!--  維持管理の結果ルートクラス -->
+	<xs:element name="MaintenanceResult" type="sip:MaintenanceResultType" substitutionGroup="sip:BridgeAttribute"/>
+	<xs:complexType name="MaintenanceResultType">
+		<xs:complexContent>
+			<xs:extension base="sip:BridgeAttributeType">
+				<xs:sequence>
+					<xs:element name="result" type="gml:CodeType" minOccurs="0"/>
+					<xs:element name="findings" type="gml:stringOrNilReason" minOccurs="0"/>
+					<xs:element name="process" type="sip:BridgeMaintenanceProcessPropertyType"/>
+					<xs:element name="damage" type="sip:DamagePropertyType" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+				<xs:attribute ref="gml:id"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="MaintenanceResultPropertyType">
+		<xs:sequence minOccurs="0">
+			<xs:element ref="sip:MaintenanceResult"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="gml:AssociationAttributeGroup"/>
+		<xs:attributeGroup ref="gml:OwnershipAttributeGroup"/>
+	</xs:complexType>
+	<!-- 点検結果、対応結果は維持管理結果を継承するように修正。属性及び関連は上位から継承するため、削除 -->
+	<!-- 点検結果 -->
+	<xs:element name="InspectionResult" type="sip:InspectionResultType" substitutionGroup="sip:MaintenanceResult">
+		<xs:annotation>
+			<xs:documentation>2025-10-08 点検結果</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="InspectionResultPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:InspectionResult"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="InspectionResultType">
+		<xs:complexContent>
+			<xs:extension base="sip:MaintenanceResultType">
+				<xs:sequence>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- 健全度（部材番号単位） -->
+	<xs:element name="MemberConditionStatus" type="sip:MemberConditionStatusType" substitutionGroup="sip:InspectionResult"/>
+	<xs:complexType name="MemberConditionStatusPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:MemberConditionStatus"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MemberConditionStatusType">
+		<xs:complexContent>
+			<xs:extension base="sip:InspectionResultType">
+				<xs:sequence>
+					<xs:element name="spanNumber" type="gml:stringOrNilReason"/>
+					<xs:element name="constructionType" type="gml:CodeType" minOccurs="0"/>
+					<xs:element name="substance" type="gml:CodeType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Bridge_substanceType.xml</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="componentName" type="gml:CodeType">
+						<xs:annotation>
+							<xs:documentation>Bridge_ComponentName.xml</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="componentNumber" type="gml:stringOrNilReason"/>
+					<xs:element name="damageSeverityMax" type="gml:CodeType" minOccurs="0"/>
+					<xs:element name="damageSeverityMin" type="gml:CodeType" minOccurs="0"/>
+					<xs:element name="conditionStatus" type="gml:CodeType">
+						<xs:annotation>
+							<xs:documentation>ConditionStatus_conditionStatus.xml</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="BridgeConditionStatus" type="sip:BridgeConditionStatusType" substitutionGroup="sip:InspectionResult">
+		<xs:annotation>
+			<xs:documentation>健全度（橋単位）</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="BridgeConditionStatusPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:BridgeConditionStatus"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BridgeConditionStatusType">
+		<xs:complexContent>
+			<xs:extension base="sip:InspectionResultType">
+				<xs:sequence>
+					<xs:element name="bridgeConditionStatus" type="gml:CodeType">
+						<xs:annotation>
+							<xs:documentation>ConditionStatus_conditionStatus.xml</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="mainMemberConditionStatus" type="sip:ConditionAssessmentPropertyType" minOccurs="0"/>
+					<xs:element name="bearingExpansionConditionStatus" type="sip:ConditionAssessmentPropertyType" minOccurs="0"/>
+					<xs:element name="conditionRemarks" type="gml:stringOrNilReason" minOccurs="0"/>
+					<xs:element name="hasThirdPartyDamage" type="gml:booleanOrNilReason" minOccurs="0"/>
+					<xs:element name="overallInspectionResult" type="gml:stringOrNilReason" minOccurs="0"/>
+					<xs:element name="mainGirderAssessment" type="sip:ConditionAssessmentPropertyType" minOccurs="0"/>
+					<xs:element name="crossBeamAssessment" type="sip:ConditionAssessmentPropertyType" minOccurs="0"/>
+					<xs:element name="deckAssessment" type="sip:ConditionAssessmentPropertyType" minOccurs="0"/>
+					<xs:element name="abutmentAssessment" type="sip:ConditionAssessmentPropertyType" minOccurs="0"/>
+					<xs:element name="pierAssessment" type="sip:ConditionAssessmentPropertyType" minOccurs="0"/>
+					<xs:element name="bearingAssessment" type="sip:ConditionAssessmentPropertyType" minOccurs="0"/>
+					<xs:element name="expansionDeviceAssessment" type="sip:ConditionAssessmentPropertyType" minOccurs="0"/>
+					<xs:element name="railingGuardAssessment" type="sip:ConditionAssessmentPropertyType" minOccurs="0"/>
+					<xs:element name="pavementAssessment" type="sip:ConditionAssessmentPropertyType" minOccurs="0"/>
+					<xs:element name="otherAssessment" type="sip:ConditionAssessmentPropertyType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>2026-07-14追加　その他判定</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="OtherStatusInfo" type="sip:OtherStatusInfoType" substitutionGroup="sip:InspectionResult">
+		<xs:annotation>
+			<xs:documentation>その他の状況把握</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="OtherStatusInfoPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:OtherStatusInfo"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OtherStatusInfoType">
+		<xs:complexContent>
+			<xs:extension base="sip:InspectionResultType">
+				<xs:sequence>
+					<xs:element name="spanNumber" type="gml:stringOrNilReason"/>
+					<xs:element name="supportMeasureCategory" type="gml:CodeType">
+						<xs:annotation>
+							<xs:documentation>OtherStatusInfo_supportMeasureCategory.xml</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="componentName" type="gml:CodeType">
+						<xs:annotation>
+							<xs:documentation>Bridge_ComponentName.xml</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="componentNumber" type="gml:stringOrNilReason"/>
+					<xs:element name="elementNumber" type="gml:stringOrNilReason"/>
+					<xs:element name="reason" type="gml:stringOrNilReason"/>
+					<xs:element name="countermeasure" type="gml:stringOrNilReason"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="ConditionAssessment" type="sip:ConditionAssessmentType">
+		<xs:annotation>
+			<xs:documentation>健全度</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="ConditionAssessmentPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:ConditionAssessment"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ConditionAssessmentType">
+		<xs:sequence>
+			<xs:element name="condition" type="gml:CodeType">
+				<xs:annotation>
+					<xs:documentation>ConditionStatus_conditionStatus.xml</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="countermeasureType" type="gml:CodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>ConditionAssessment_countermeasureType</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- 対策結果 -->
+	<xs:element name="MitigationResult" type="sip:MitigationResultType" substitutionGroup="sip:MaintenanceResult">
+		<xs:annotation>
+			<xs:documentation>2026-07-14 対策結果</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="MitigationResultPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:MitigationResult"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MitigationResultType">
+		<xs:complexContent>
+			<xs:extension base="sip:MaintenanceResultType">
+				<xs:sequence>
+					<xs:annotation>
+						<xs:documentation>2026-07-14 属性は上位から継承するため削除</xs:documentation>
+					</xs:annotation>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="RepairReinforcementResult" type="sip:RepairReinforcementResultType" substitutionGroup="sip:MitigationResult">
+		<xs:annotation>
+			<xs:documentation>補修補強結果</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="RepairReinforcementResultPropertyType">
+		<xs:sequence minOccurs="0">
+			<xs:element ref="sip:RepairReinforcementResult"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="gml:AssociationAttributeGroup"/>
+		<xs:attributeGroup ref="gml:OwnershipAttributeGroup"/>
+	</xs:complexType>
+	<xs:complexType name="RepairReinforcementResultType">
+		<xs:complexContent>
+			<xs:extension base="sip:MitigationResultType">
+				<xs:sequence>
+					<xs:element name="repairReinforcement" type="sip:RepairReinforcementPropertyType"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="EmergencyMeasureResult" type="sip:EmergencyMeasureResultType" substitutionGroup="sip:MitigationResult">
+		<xs:annotation>
+			<xs:documentation>応急処置結果</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="EmergencyMeasureResultPropertyType">
+		<xs:sequence minOccurs="0">
+			<xs:element ref="sip:EmergencyMeasureResult"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EmergencyMeasureResultType">
+		<xs:complexContent>
+			<xs:extension base="sip:MitigationResultType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- 維持管理計画の結果 2026-07-14 新規追加 -->
+	<xs:element name="MaintenancePlanResult" type="sip:MaintenancePlanResultType" substitutionGroup="sip:MaintenanceResult">
+		<xs:annotation>
+			<xs:documentation>2026‐07‐14 維持管理計画の結果追加</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="MaintenancePlanResultPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:MaintenancePlanResult"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MaintenancePlanResultType">
+		<xs:complexContent>
+			<xs:extension base="sip:MaintenanceResultType">
+				<xs:sequence>
+					<xs:element name="estimatedConstructionCost" type="sip:CostPropertyType">
+						<xs:annotation>
+							<xs:documentation>2026-07-14 概算工事費</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="details" type="sip:DetailedCostPropertyType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>2026-07-14 工事費内訳</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="Cost" type="sip:CostType">
+		<xs:annotation>
+			<xs:documentation>2026-07-14 金額</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="CostType">
+		<xs:sequence>
+			<xs:element name="cost" type="xs:double"/>
+			<xs:element name="currency" type="gml:CodeType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CostPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:Cost"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="DetailedCost" type="sip:DetailedCostType">
+		<xs:annotation>
+			<xs:documentation>2026-07-14 費用内訳</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="DetailedCostType">
+		<xs:sequence>
+			<xs:element name="countermeasureMethod" type="gml:CodeType">
+				<xs:annotation>
+					<xs:documentation>2026-07-14 対策工法</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="materials" type="gml:CodeType">
+				<xs:annotation>
+					<xs:documentation>2026-07-14 材料</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="unitPrice" type="sip:CostPropertyType">
+				<xs:annotation>
+					<xs:documentation>2026-07-14 単価</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="quantity" type="gml:MeasureType">
+				<xs:annotation>
+					<xs:documentation>2026-07-14 数量</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="constructionCost" type="sip:CostPropertyType">
+				<xs:annotation>
+					<xs:documentation>2026-07-14 工事費</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DetailedCostPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:DetailedCost"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="RepairPlanResult" type="sip:RepairPlanResultType" substitutionGroup="sip:MaintenancePlanResult">
+		<xs:annotation>
+			<xs:documentation>2026‐07‐14 修繕計画の結果</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="RepairPlanResultPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:RepairPlanResult"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RepairPlanResultType">
+		<xs:complexContent>
+			<xs:extension base="sip:MaintenancePlanResultType">
+				<xs:sequence>
+					<xs:element name="conditionAssessmentScore" type="xs:integer" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>2026-07-14 健全度評価点</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="specificationSignificanceScore" type="xs:integer" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>2026-07-14 諸元重要度評価点</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="countermeasurePriority" type="xs:integer">
+						<xs:annotation>
+							<xs:documentation>2026-07-14 対策順位</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="previousCountermeasurePriority" type="xs:integer" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>2026-07-14 対策順位（策定済）</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="overallScore" type="xs:integer">
+						<xs:annotation>
+							<xs:documentation>2026-07-14 総合評価点</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="managementCategory" type="gml:CodeType">
+						<xs:annotation>
+							<xs:documentation>2026-07-14 管理区分</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="countermeasureUrgency" type="gml:CodeType">
+						<xs:annotation>
+							<xs:documentation>2026-07-14 対策緊急性</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="countermeasureDeadlineEstimate" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>2026-07-14 対策期限目安</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="nextInspection" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>2026-07-14 次回点検</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="directConstructionCost" type="sip:CostPropertyType">
+						<xs:annotation>
+							<xs:documentation>2026-07-14 直接工事費</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="RepairDesignResult" type="sip:RepairDesignResultType" substitutionGroup="sip:MaintenancePlanResult">
+		<xs:annotation>
+			<xs:documentation>2026‐07‐14 補修設計の結果追加</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="RepairDesignResultPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:RepairDesignResult"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RepairDesignResultType">
+		<xs:complexContent>
+			<xs:extension base="sip:MaintenancePlanResultType">
+				<xs:sequence>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- 橋梁構造データモデルと維持管理データモデルで宣言した要素を呼び出す -->
+	<!-- 用途別データセットのルートクラス -->
+	<xs:element name="ApplicationDataset" type="sip:ApplicationDatasetType" substitutionGroup="sip:Dataset"/>
+	<xs:complexType name="ApplicationDatasetType">
+		<xs:complexContent>
+			<xs:extension base="sip:DatasetType">
+				<xs:sequence>
+					<xs:element name="ioType" type="gml:CodeType">
+						<xs:annotation>
+							<xs:documentation>ioTypeは、このデータセットがインプット情報なのか、アウトプット情報なのかを示すために使用する。</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="appliaction" type="sip:DefinitionPropertyType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>applicationは、このデータセットが何の目的のデータセットであるかを示す。applicationがnullの場合、processで対象とするプロセスを指定する。</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="process" type="sip:BridgeMaintenanceProcessPropertyType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>processで参照される維持管理の各プロセスは、infoListによって必要な情報のリストを持っている。このリストに記載された項目が、子要素として出現する。</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- 以下、用途ごとのスキーマはApplicationDatasetを使うことで不要になるが、すでに用意しているクラスは残しておく -->
+	<!-- 復元設計 -->
+	<xs:element name="RestorationDesignDataset" type="sip:RestorationDesignDatasetType" substitutionGroup="sip:ApplicationDataset"/>
+	<xs:complexType name="RestorationDesignDatasetType">
+		<xs:complexContent>
+			<xs:extension base="sip:ApplicationDatasetType">
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- 補修設計 -->
+	<xs:element name="RepairDesignDataset" type="sip:RepairDesignDatasetType" substitutionGroup="sip:ApplicationDataset"/>
+	<xs:complexType name="RepairDesignDatasetType">
+		<xs:complexContent>
+			<xs:extension base="sip:ApplicationDatasetType">
+				<xs:sequence>
+
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- 修繕計画 -->
+	<xs:element name="RepairPlanDataset" type="sip:MaintenancePlanDatasetType" substitutionGroup="sip:ApplicationDataset"/>
+	<xs:complexType name="MaintenancePlanDatasetType">
+		<xs:complexContent>
+			<xs:extension base="sip:ApplicationDatasetType">
+				<xs:sequence>
+
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- 補強設計 -->
+	<xs:element name="ReinforcementDesignDataset" type="sip:ReinforcementDesignDatasetType" substitutionGroup="sip:ApplicationDataset"/>
+	<xs:complexType name="ReinforcementDesignDatasetType">
+		<xs:complexContent>
+			<xs:extension base="sip:ApplicationDatasetType">
+				<xs:sequence>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- 点検調書 -->
+	<xs:element name="InspectionResultDataset" type="sip:InspectionResultDatasetType" substitutionGroup="sip:ApplicationDataset">
+		<xs:annotation>
+			<xs:documentation>神奈川県逗子市点検調書</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="InspectionResultDatasetType">
+		<xs:complexContent>
+			<xs:extension base="sip:ApplicationDatasetType">
+				<xs:sequence>
+					<xs:element ref="sip:BridgeIdInfo"/>
+					<xs:element ref="sip:BridgeLocation" minOccurs="0"/>
+					<xs:element ref="sip:BridgeCheckLog" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>子要素は出現させない（Format1～13に網羅されるため）。BridgeCheckLogが直接持つ要素のみ記述。</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ref="sip:Format1_InspectionResults" minOccurs="0"/>
+					<xs:element ref="sip:Format2_SpanDiagram" minOccurs="0"/>
+					<xs:element ref="sip:Format3_SitePhotos" minOccurs="0"/>
+					<xs:element ref="sip:Format4_ElementMemberDiagram" minOccurs="0"/>
+					<xs:element ref="sip:Format5_DamageDiagram" minOccurs="0"/>
+					<xs:element ref="sip:Format6_DamagePhotos" minOccurs="0"/>
+					<xs:element ref="sip:Format7_DamageSeverityRecord" minOccurs="0"/>
+					<xs:element ref="sip:Format8_DamageSeverityRecord_Others" minOccurs="0"/>
+					<xs:element ref="sip:Format9_DamageEvaluationSummary" minOccurs="0"/>
+					<xs:element ref="sip:Format10_CountermeasureAssessment_Key" minOccurs="0"/>
+					<xs:element ref="sip:Format11_CountermeasureAssessment_Other" minOccurs="0"/>
+					<xs:element ref="sip:Format12_ConditionAssessmentMethod" minOccurs="0"/>
+					<xs:element ref="sip:Format13_BridgeDiagnosisObservations" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="Format1_InspectionResults">
+		<xs:annotation>
+			<xs:documentation>橋梁の諸元と総合検査結果</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="sip:TrafficVolume" minOccurs="0"/>
+				<xs:element ref="sip:LoadLimit" minOccurs="0"/>
+				<xs:element ref="sip:BridgeType" minOccurs="0"/>
+				<xs:element ref="sip:BridgeSpecifications" minOccurs="0"/>
+				<xs:element ref="sip:StartDateOfUse" minOccurs="0"/>
+				<xs:element ref="sip:BridgeLength" minOccurs="0"/>
+				<xs:element ref="sip:Load" minOccurs="0"/>
+				<xs:element ref="sip:AdditionalNotes" minOccurs="0"/>
+				<xs:element ref="sip:ApplicableGuidelines" minOccurs="0"/>
+				<xs:element ref="sip:CrossingConditions" minOccurs="0"/>
+				<xs:element ref="sip:SaltDamageClassification" minOccurs="0"/>
+				<xs:element ref="sip:ImportanceCategory" minOccurs="0"/>
+				<xs:element ref="sip:PresenceOfWaterproofingLayer" minOccurs="0"/>
+				<xs:element ref="sip:BridgeConditionStatus" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Format2_SpanDiagram">
+		<xs:annotation>
+			<xs:documentation>径間一般図</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="spanNumber" type="gml:stringOrNilReason"/>
+				<xs:element ref="sip:Drawing" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Format3_SitePhotos">
+		<xs:annotation>
+			<xs:documentation>現地状況写真</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="spanNumber" type="gml:stringOrNilReason"/>
+				<xs:element ref="sip:Photo" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Format4_ElementMemberDiagram">
+		<xs:annotation>
+			<xs:documentation>要素番号図及び部材番号図</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="spanNumber" type="gml:stringOrNilReason"/>
+				<xs:element ref="sip:Drawing" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Format5_DamageDiagram">
+		<xs:annotation>
+			<xs:documentation>損傷図</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="spanNumber" type="gml:stringOrNilReason"/>
+				<xs:element ref="sip:Damage" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Format6_DamagePhotos">
+		<xs:annotation>
+			<xs:documentation>損傷写真</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="spanNumber" type="gml:stringOrNilReason"/>
+				<xs:element ref="sip:Photo" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Format7_DamageSeverityRecord">
+		<xs:annotation>
+			<xs:documentation>損傷程度の評価記入表（主要部材）</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="spanNumber" type="gml:stringOrNilReason"/>
+				<xs:element ref="sip:Damage" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Format8_DamageSeverityRecord_Others">
+		<xs:annotation>
+			<xs:documentation>損傷程度の評価記入表（その７に記載以外の部材）</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="spanNumber" type="gml:stringOrNilReason"/>
+				<xs:element ref="sip:Damage" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Format9_DamageEvaluationSummary">
+		<xs:annotation>
+			<xs:documentation>損傷程度の評価結果総括</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="spanNumber" type="gml:stringOrNilReason"/>
+				<xs:element name="inspectionSummary" type="sip:InspectionSummaryPropertyType" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Format10_CountermeasureAssessment_Key">
+		<xs:annotation>
+			<xs:documentation>対策区分の判定結果（主要部材）</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="spanNumber" type="gml:stringOrNilReason"/>
+				<xs:element name="primaryMemberConditionStatus" type="sip:MemberConditionStatusPropertyType" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>2025-12-24 要素名修正</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Format11_CountermeasureAssessment_Other">
+		<xs:annotation>
+			<xs:documentation>対策区分の判定結果（その他部材）</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="spanNumber" type="gml:stringOrNilReason"/>
+				<xs:element name="otherMemberConditionStatus" type="sip:MemberConditionStatusPropertyType" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>2025-12-24 要素名修正</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Format12_ConditionAssessmentMethod">
+		<xs:annotation>
+			<xs:documentation>状況把握の方法</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="spanNumber" type="gml:stringOrNilReason"/>
+				<xs:element ref="sip:OtherStatusInfo" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Format13_BridgeDiagnosisObservations">
+		<xs:annotation>
+			<xs:documentation>橋の健全性の診断に関する所見</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="spanNumber" type="gml:stringOrNilReason"/>
+				<xs:element ref="sip:MemberConditionStatus" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="InspectionSummary" type="sip:InspectionSummaryType"/>
+	<xs:complexType name="InspectionSummaryPropertyType">
+		<xs:sequence>
+			<xs:element ref="sip:InspectionSummary"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="InspectionSummaryType">
+		<xs:sequence>
+			<xs:element name="constructionType" type="gml:CodeType"/>
+			<xs:element name="substanceType" type="gml:CodeType"/>
+			<xs:element name="componentName" type="gml:CodeType"/>
+			<xs:element name="componentNumber" type="gml:stringOrNilReason"/>
+			<xs:element name="lastInspectionDate" type="sip:dateOrNilReason">
+				<xs:annotation>
+					<xs:documentation>2025-5-13 型修正</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="lastInspectionResult" type="gml:CodeType"/>
+			<xs:element name="currentInspectionDate" type="sip:dateOrNilReason"/>
+			<xs:element name="currentInspectionResult" type="gml:CodeType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="dateOrNilReason">
+		<xs:annotation>
+			<xs:documentation>2025-06-10不明値のほか、年月日、年、年月、年度での記述を可能とした</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="gml:NilReasonEnumeration xs:date xs:anyURI xs:gYear xs:gYearMonth sip:FYIntegerType"/>
+	</xs:simpleType>
+	<xs:complexType name="MeasureOrNilReasonType">
+		<xs:simpleContent>
+			<xs:extension base="gml:doubleOrNilReason">
+				<xs:attribute name="uom" type="gml:UomIdentifier">
+					<xs:annotation>
+						<xs:documentation>2026-02-16 required削除</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:annotation>
+		<xs:documentation>2025-06-10 年度表記を定義</xs:documentation>
+	</xs:annotation>
+	<xs:simpleType name="FYIntegerType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="FY[0-9]{4}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 辞書モデル -->
+	<!-- 2026-07-14 時間を追加したため、GMLのDictionary Schemaを拡張 -->
+	<xs:element name="Definition" type="sip:DefinitionType" substitutionGroup="gml:Definition"/>
+	<xs:complexType name="DefinitionType">
+		<xs:complexContent>
+			<xs:extension base="gml:DefinitionType">
+				<xs:sequence>
+					<xs:element name="lifespan" type="gml:TimePeriodPropertyType" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="DefinitionPropertyType">
+		<xs:sequence minOccurs="0">
+			<xs:element ref="sip:Definition"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="gml:AssociationAttributeGroup"/>
+		<xs:attributeGroup ref="gml:OwnershipAttributeGroup"/>
+	</xs:complexType>
+	<xs:element name="Dictionary" type="sip:DictionaryType" substitutionGroup="gml:Dictionary"/>
+	<xs:complexType name="DictionaryType">
+		<xs:complexContent>
+			<xs:extension base="gml:DictionaryType"/>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>
