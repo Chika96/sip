@@ -56,7 +56,7 @@
 				"null"
 			]
 		},
-		"nullableNumber": {
+		"numberOrNil": {
 			"type": "object",
 			"properties": {
 				"value": {
@@ -79,7 +79,7 @@
 				}
 			}
 		},
-		"nullableBoolean": {
+		"booleanOrNil": {
 			"type": "object",
 			"properties": {
 				"value": {
@@ -121,22 +121,6 @@
 			"properties": {
 				"value": {
 					"$ref": "#/definitions/nullableDate"
-				}
-			}
-		},
-		"numberOrNil": {
-			"type": "object",
-			"properties": {
-				"value": {
-					"$ref": "#/definitions/nullableNumber"
-				}
-			}
-		},
-		"booleanOrNil": {
-			"type": "object",
-			"properties": {
-				"value": {
-					"$ref": "#/definitions/nullableBoolean"
 				}
 			}
 		},
@@ -240,7 +224,8 @@
 			},
 			"required": [
 				"sip:length"
-			]
+			],
+			"additionalProperties": false	
 		},
 		"sip:Spacing": {
 			"type": "object",
@@ -251,13 +236,17 @@
 				"sip:axis": {
 					"$ref": "#/definitions/codeType"
 				},
-				"sip:length": {
+				"sip:spacing": {
 					"$ref": "#/definitions/measureOrNil"
 				},
 				"sip:measurementPoint": {
 					"$ref": "#/definitions/codeType"
 				}
-			}
+			},
+			"required": [
+				"sip:spacing"
+			],
+			"additionalProperties": false			
 		},
 		"sip:Quantity": {
 			"type": "object",
@@ -271,7 +260,11 @@
 				"sip:count": {
 					"$ref": "#/definitions/numberOrNil"
 				}
-			}
+			},
+			"required": [
+				"sip:count"
+			],
+			"additionalProperties": false		
 		},
 		"sip:Shape": {
 			"type": "object",
@@ -361,6 +354,7 @@
 				}
 			},
 			"required": [
+				"sip:type",
 				"sip:file"
 			]
 		},
@@ -395,8 +389,10 @@
 					"$ref": "#/definitions/sip:Resource"
 				},
 				"sip:photo": {
-					"description": "the IDs of the Photo",
-					"type": "string"
+							"anyOf":[
+								{"$ref": "#/definitions/sip:Photo"},
+								{"type":"string","description":"id of Photo"}
+							]
 				},
 				"sip:spanNumber": {
 					"$ref": "#/definitions/stringOrNil"
@@ -1069,8 +1065,10 @@
 					"$ref": "#/definitions/sip:Resource"
 				},
 				"sip:drawing": {
-					"description": "the IDs of the Drawing",
-					"type": "string"
+					"anyOf":[
+						{"$ref": "#/definitions/sip:Drawing"},
+						{"type":"string","description":"id of Drawing"}
+					]
 				}
 			},
 			"required": [
@@ -1090,8 +1088,10 @@
 					"$ref": "#/definitions/sip:Resource"
 				},
 				"sip:drawing": {
-					"description": "the IDs of the Drawing",
-					"type": "string"
+					"anyOf":[
+						{"$ref": "#/definitions/sip:Drawing"},
+						{"type":"string","description":"id of Drawing"}
+					]
 				}
 			}
 		},
@@ -1108,8 +1108,10 @@
 					"$ref": "#/definitions/sip:Resource"
 				},
 				"sip:drawing": {
-					"description": "the IDs of the Drawing",
-					"type": "string"
+					"anyOf":[
+						{"$ref": "#/definitions/sip:Drawing"},
+						{"type":"string","description":"id of Drawing"}
+					]
 				}
 			}
 		},
@@ -1126,8 +1128,10 @@
 					"$ref": "#/definitions/sip:Resource"
 				},
 				"sip:drawing": {
-					"description": "the IDs of the Drawing",
-					"type": "string"
+					"anyOf":[
+						{"$ref": "#/definitions/sip:Drawing"},
+						{"type":"string","description":"id of Drawing"}
+					]
 				}
 			}
 		},
@@ -1614,8 +1618,10 @@
 					"$ref": "#/definitions/sip:Resource"
 				},
 				"sip:photo": {
-					"description": "the IDs of the Photo",
-					"type": "string"
+							"anyOf":[
+								{"$ref": "#/definitions/sip:Photo"},
+								{"type":"string","description":"id of Photo"}
+							]
 				},
 				"sip:spanNumber": {
 					"$ref": "#/definitions/stringOrNil"
@@ -1644,8 +1650,10 @@
 					"$ref": "#/definitions/sip:Resource"
 				},
 				"sip:drawing": {
-					"description": "the IDs of the Drawing",
-					"type": "string"
+					"anyOf":[
+						{"$ref": "#/definitions/sip:Drawing"},
+						{"type":"string","description":"id of Drawing"}
+					]
 				}
 			},
 			"required": [
@@ -1798,12 +1806,12 @@
 					"$ref": "#/definitions/sip:ConditionAssessment"
 				},
 				"sip:mainGirderAssessment": {
-					"$ref": "#/definitions/stringOrNil"
+					"$ref": "#/definitions/sip:ConditionAssessment"
 				},
 				"sip:crossBeamAssessment": {
 					"$ref": "#/definitions/sip:ConditionAssessment"
 				},
-				"sip:deckAssessments": {
+				"sip:deckAssessment": {
 					"$ref": "#/definitions/sip:ConditionAssessment"
 				},
 				"sip:abutmentAssessment": {
@@ -1826,22 +1834,7 @@
 				}
 			},
 			"required": [
-				"sip:inspection",
 				"sip:bridgeConditionStatus",
-				"sip:mainMemberConditionStatus",
-				"sip:bearingExpansionConditionStatus",
-				"sip:conditionRemarks",
-				"sip:hasThirdPartyDamage",
-				"sip:overallInspectionResult",
-				"sip:mainGirderAssessment",
-				"sip:crossBeamAssessment",
-				"sip:deckAssessments",
-				"sip:abutmentAssessment",
-				"sip:pierAssessment",
-				"sip:bearingAssessment",
-				"sip:expansionDeviceAssessment",
-				"sip:railingGuardAssessment",
-				"sip:pavementAssessment"
 			]
 		},
 		"sip:InspectionResult": {
@@ -1929,7 +1922,7 @@
 					"$ref": "#/definitions/codeType"
 				},
 				"sip:conditionStatus": {
-					"$ref": "#/definitions/sip:ConditionAssessment"
+					"$ref": "#/definitions/codeType"
 				}
 			},
 			"required": [
@@ -1997,6 +1990,7 @@
 				"sip:supportMeasureCategory",
 				"sip:componentName",
 				"sip:componentNumber",
+				"sip:elementNumber",
 				"sip:reason",
 				"sip:countermeasure"
 			]
@@ -2125,7 +2119,7 @@
 					}
 				}
 			},
-			"sip:spanNumber": {
+			"+sip:spanNumber": {
 				"$ref": "#/definitions/stringOrNil"
 			},
 			"+sip:shape": {
@@ -2234,6 +2228,7 @@
 						},
 						"sip:SpanGeneralDiagrams": {
 							"$ref": "#/definitions/sip:SpanGeneralDiagrams"
+							
 						},
 						"sip:AssemblyDrawings": {
 							"$ref": "#/definitions/sip:AssemblyDrawings"
@@ -2381,13 +2376,13 @@
 					}
 				}
 			},
-			"sip:shape": {
+			"+sip:shape": {
 					"type": "array",
 					"items": {
 						"$ref": "#/definitions/sip:Shape"
 					}
 				},
-			"sip:damage": {
+			"+sip:damage": {
 					"type": "array",
 					"description": "the IDs of the Damage",
 					"items": {
@@ -2453,7 +2448,7 @@
 							"$ref": "#/definitions/sip:InspectionResult"
 						},
 						"sip:BridgePhoto": {
-							"$ref": "#/definitions/sip:BridgePhoto"
+								"$ref": "#/definitions/sip:BridgePhoto"
 						},
 						"sip:BridgeDrawing": {
 							"$ref": "#/definitions/sip:BridgeDrawing"
@@ -2473,26 +2468,23 @@
 					}
 				}
 			},
-			"sip:shape": {
+			"+sip:shape": {
 					"type": "array",
 					"items": {
 						"$ref": "#/definitions/sip:Shape"
 					}
 				},
-			"sip:damage": {
+			"+sip:damage": {
 					"type": "array",
 					"description": "the IDs of the Damage",
 					"items": {
 						"type": "string"
 					}
-			},
-			"required": [
-					"sip:componentName"
-				]
+			}
 		}
 	},
 	"extraCityObjects": {
-		"+sip:Damage": {
+		"+Damage": {
 			"allOf": [
 				{
 					"$ref": "cityobjects.schema.json#/_AbstractCityObject"
@@ -2501,7 +2493,7 @@
 					"properties": {
 						"type": {
 							"enum": [
-								"+sip:Damage"
+								"+Damage"
 							]
 						},
 						"attributes": {
@@ -2531,6 +2523,7 @@
 									},
 									"sip:DamagePhoto": {
 										"$ref": "#/definitions/sip:DamagePhoto"
+										
 									},
 									"sip:DamageDrawing": {
 										"$ref": "#/definitions/sip:DamageDrawing"
@@ -2556,7 +2549,7 @@
 										"$ref": "geomprimitives.schema.json#/MultiSurface"
 									},
 									{
-										"$ref": "geomprimitives.schema.json#/sip:PointCloud"
+										"$ref": "#/definitions/sip:PointCloud"
 									}
 								]
 							}
@@ -2576,7 +2569,7 @@
 				}
 			]
 		},
-		"+sip:BridgeCheckLog": {
+		"+BridgeCheckLog": {
 			"allOf": [
 				{
 					"$ref": "cityobjects.schema.json#/_AbstractCityObject"
@@ -2585,7 +2578,7 @@
 					"properties": {
 						"type": {
 							"enum": [
-								"+sip:BridgeCheckLog"
+								"+BridgeCheckLog"
 							]
 						},
 						"attributes": {
@@ -2615,33 +2608,42 @@
 								"sip:referenceGuideline": {
 									"$ref": "#/definitions/sip:Resource"
 								}
-							}
-						}
-					},
-					"required": [
-						"sip:bridgeName"
-					]
-				}
-			]
-		},
-		"+sip:Dataset": {
-			"allOf": [
-				{
-					"$ref": "cityobjects.schema.json#/CityObjectGroup"
-				},
-				{
-					"attributes": {
-						"type": "object",
-						"properties": {
-							"sip:description": {
-								"type": "string"
-							}
+							},
+								"required": [
+								"sip:bridgeName"
+								]
 						}
 					}
 				}
 			]
 		},
-		"+sip:RepairReinforcement": {
+		"+Dataset": {
+			"allOf": [
+				{
+					"$ref": "cityobjects.schema.json#/CityObjectGroup"
+				},
+				{
+					"properties":{
+						"type":{
+							"enum":[
+								"+Dataset"
+							]
+						},
+						"attributes": {
+							"type": "object",
+							"properties": {
+								"sip:description": {
+								"type": "string"
+							}
+						}
+					}						
+						
+					}
+
+				}
+			]
+		},
+		"+RepairReinforcement": {
 			"allOf": [
 				{
 					"$ref": "cityobjects.schema.json#/_AbstractCityObject"
@@ -2650,7 +2652,7 @@
 					"properties": {
 						"type": {
 							"enum": [
-								"+sip:RepairReinforcement"
+								"+RepairReinforcement"
 							]
 						},
 						"attributes": {
@@ -2682,7 +2684,7 @@
 				}
 			]
 		},
-		"+sip:RestorationDesignDataset": {
+		"+RestorationDesignDataset": {
 			"allOf": [
 				{
 					"$ref": "cityobjects.schema.json#/CityObjectGroup"
@@ -2691,7 +2693,7 @@
 					"properties": {
 						"type": {
 							"enum": [
-								"+sip:RestorationDesignDataset"
+								"+RestorationDesignDataset"
 							]
 						},
 						"attributes": {
@@ -2738,7 +2740,7 @@
 										"$ref": "#/definitions/sip:ApplicableGuidelines"
 									},
 									"sip:AsBuiltDrawings": {
-										"$ref": "#/definitions/sip:SupportLength"
+										"$ref": "#/definitions/sip:AsBuiltDrawings"
 									},
 									"sip:ReinforcementInformation": {
 										"$ref": "#/definitions/sip:ReinforcementInformation"
@@ -2767,12 +2769,12 @@
 						}
 					},
 					"required": [
-						"+sip:target"
+						"sip:target"
 					]
 				}
 			]
 		},
-		"+sip:RepairDesignDataset": {
+		"+RepairDesignDataset": {
 			"allOf": [
 				{
 					"$ref": "cityobjects.schema.json#/CityObjectGroup"
@@ -2781,7 +2783,7 @@
 					"properties": {
 						"type": {
 							"enum": [
-								"+sip:RepairDesignDataset"
+								"+RepairDesignDataset"
 							]
 						},
 						"attributes": {
@@ -2854,12 +2856,12 @@
 						}
 					},
 					"required": [
-						"+sip:target"
+						"sip:target"
 					]
 				}
 			]
 		},
-		"+sip:MaintenancePlanDataset": {
+		"+MaintenancePlanDataset": {
 			"allOf": [
 				{
 					"$ref": "cityobjects.schema.json#/CityObjectGroup"
@@ -2868,7 +2870,7 @@
 					"properties": {
 						"type": {
 							"enum": [
-								"+sip:MaintenancePlanDataset"
+								"+MaintenancePlanDataset"
 							]
 						},
 						"attributes": {
@@ -2947,12 +2949,12 @@
 						}
 					},
 					"required": [
-						"+sip:target"
+						"sip:target"
 					]
 				}
 			]
 		},
-		"+sip:ReinforcementDesignDataset": {
+		"+ReinforcementDesignDataset": {
 			"allOf": [
 				{
 					"$ref": "cityobjects.schema.json#/CityObjectGroup"
@@ -2961,7 +2963,7 @@
 					"properties": {
 						"type": {
 							"enum": [
-								"+sip:ReinforcementDesignDataset"
+								"+ReinforcementDesignDataset"
 							]
 						},
 						"attributes": {
@@ -3043,12 +3045,12 @@
 						}
 					},
 					"required": [
-						"+sip:target"
+						"sip:target"
 					]
 				}
 			]
 		},
-		"+sip:InspectionResultDataset": {
+		"+InspectionResultDataset": {
 			"allOf": [
 				{
 					"$ref": "cityobjects.schema.json#/CityObjectGroup"
@@ -3057,7 +3059,7 @@
 					"properties": {
 						"type": {
 							"enum": [
-								"+sip:InspectionResultDataset"
+								"+InspectionResultDataset"
 							]
 						},
 						"attributes": {
@@ -3138,7 +3140,7 @@
 											"sip:Drawing": {
 												"type": "array",
 												"items": {
-													"$ref": "#/definitions/sip:Drawing"
+													"$ref": "#/definitions/sip:SpanGeneralDiagrams"
 												}
 											}
 										}
@@ -3152,7 +3154,11 @@
 											"sip:Photo": {
 												"type": "array",
 												"items": {
-													"$ref": "#/definitions/sip:Photo"
+													"anyOf":[
+														{"$ref": "#/definitions/sip:Photo"},
+														{"type":"string","description":"id of photo"}
+													]
+													
 												}
 											}
 										}
@@ -3166,7 +3172,11 @@
 											"sip:Drawing": {
 												"type": "array",
 												"items": {
-													"$ref": "#/definitions/sip:Drawing"
+													"anyOf":[
+														{"$ref": "#/definitions/sip:Drawing"},
+														{"type":"string","description":"id of drawing"}
+													]
+													
 												}
 											}
 										}
@@ -3195,8 +3205,8 @@
 											"sip:Photo": {
 												"type": "array",
 												"items": {
-													"$ref": "#/definitions/Photo"
-												}
+													"$ref": "#/definitions/sip:DamagePhoto"
+														}
 											}
 										}
 									},
@@ -3305,7 +3315,7 @@
 						}
 					},
 					"required": [
-						"+sip:target"
+						"sip:target"
 					]
 				}
 			]
